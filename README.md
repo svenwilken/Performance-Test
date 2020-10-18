@@ -10,8 +10,21 @@ The Project is developed to set up an performance Test on the https://integratei
 
 * Execute UiStarter class.
 
-# How to initialiese Test
+# Instructions
+
+## How to initialize the Test
 1. Start the UI.
-2. Type in the number of entities, generated for the test. 
+2. Type in the number of entities N, generated for the test. 
 3. Create test setup by clicking "Create Test".
-4. Cleanup DB from test entities by clicking "Delete Test Entities".
+
+## How to execute the Test
+1. Initialize the test.
+2. Goto https://integrateit-41c60.web.app/openapi/transformation
+3. Select first entity (Performance Test - 1) as source.
+3. Select last entity (Performance Test - [N]) as target.
+4. Select only operation and response of source & target.
+5. Execute test. 
+
+## How to cleanup the DB after the Test
+1. Cleanup DB from test entities by clicking "Delete Test Entities".
+
