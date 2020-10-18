@@ -14,7 +14,7 @@ public class DbInitializer {
     try {
       //get current working dir
       String workingDir = System.getProperty("user.dir");
-      FileInputStream serviceAccount = new FileInputStream(workingDir+"/integrateit-41c60-firebase-adminsdk-ndl1c-136a553850.json");
+      FileInputStream serviceAccount = new FileInputStream(workingDir+System.getProperty("file.separator")+"integrateit-41c60-firebase-adminsdk-ndl1c-136a553850.json");
 
       FirebaseOptions options = new FirebaseOptions.Builder()
           .setCredentials(GoogleCredentials.fromStream(serviceAccount))
