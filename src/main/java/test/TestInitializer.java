@@ -28,10 +28,13 @@ public class TestInitializer {
     OpenApiEntity target = new OpenApiEntity("2");
     for(int i =3; i< this.n + 2; i++) {
       OpenApiMappingEntity openApiMappingEntity = new OpenApiMappingEntity(source, target);
+      OpenApiMappingEntity openApiMappingEntityReversed = new OpenApiMappingEntity( target, source);
       OpenApiEntity savedTarget = this.openApiRepository.save(target);
       OpenApiEntity savedSource = this.openApiRepository.save(source);
       OpenApiMappingEntity savedMapping = this.openApiMappingRepository
           .save(openApiMappingEntity);
+    OpenApiMappingEntity savedMapping2 = this.openApiMappingRepository
+          .save(openApiMappingEntityReversed);
       source = target;
       target = new OpenApiEntity(i+"");
     }
