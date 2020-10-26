@@ -2,17 +2,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import test.TestInitializer;
+import network.NetworkInitializer;
 import ui.TestUIPanel;
 
 public class UiStarter {
   public static void main (String args[]){
-    TestInitializer initializer = new TestInitializer(10);
+    NetworkInitializer initializer = new NetworkInitializer(10, 0, false);
     startupFrame(initializer);
   }
 
 
-  private static void startupFrame(TestInitializer initializer) {
+  private static void startupFrame(NetworkInitializer initializer) {
     SwingUtilities.invokeLater(() -> {
       JFrame frame = new JFrame("Performance Test");
       frame.add(new TestUIPanel(initializer));
