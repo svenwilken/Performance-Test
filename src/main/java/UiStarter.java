@@ -7,12 +7,13 @@ import ui.TestUIPanel;
 
 public class UiStarter {
   public static void main (String args[]){
+    UiStarter uiStarter = new UiStarter();
     NetworkInitializer initializer = new NetworkInitializer(10, 0, false);
-    startupFrame(initializer);
+    uiStarter.startupFrame(initializer);
   }
 
 
-  private static void startupFrame(NetworkInitializer initializer) {
+  public void startupFrame(NetworkInitializer initializer) {
     SwingUtilities.invokeLater(() -> {
       JFrame frame = new JFrame("Performance Test");
       frame.add(new TestUIPanel(initializer));

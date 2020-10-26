@@ -9,6 +9,7 @@ import openApiMappings.OpenApiMappingRepository;
 public class NetworkInitializer {
   OpenApiMappingRepository openApiMappingRepository;
   OpenApiRepository openApiRepository;
+  Graph graph;
 
 /**
  * Total number of nodes
@@ -20,7 +21,6 @@ public class NetworkInitializer {
    *  	If C = i, then every Node will have i additional edge(s) to (an)other randomly assigned node(s)
    */
   int c;
-
   /**
    * a boolean indicating if the Network is allowed to have loops
    */
@@ -40,11 +40,13 @@ public class NetworkInitializer {
   }
 
   public void createNetwork() {
-
+    this.graph = new Graph(n);
     System.out.println("Create Nodes and Horizontal Line ");
 
     OpenApiEntity source = new OpenApiEntity("1");
     OpenApiEntity target = new OpenApiEntity("2");
+    graph.addEdge(1,2);
+
     for(int i =3; i< this.n + 2; i++) {
       OpenApiMappingEntity openApiMappingEntity = new OpenApiMappingEntity(source, target);
       OpenApiMappingEntity openApiMappingEntityReversed = new OpenApiMappingEntity( target, source);
@@ -54,8 +56,14 @@ public class NetworkInitializer {
           .save(openApiMappingEntity);
     OpenApiMappingEntity savedMapping2 = this.openApiMappingRepository
           .save(openApiMappingEntityReversed);
+
       source = target;
       target = new OpenApiEntity(i+"");
+
+
+      if(i<this.n+1) {
+        graph.addEdge(i - 1, i);
+      }
     }
 
     System.out.println("Create Complexity");
@@ -71,7 +79,7 @@ public class NetworkInitializer {
             OpenApiMappingEntity openApiMappingEntityReversed = new OpenApiMappingEntity( target, source);
             this.openApiMappingRepository.save(openApiMappingEntity);
             this.openApiMappingRepository.save(openApiMappingEntityReversed);
-
+            graph.addEdge(i, r);
           }
         }
       } else {
@@ -84,6 +92,7 @@ public class NetworkInitializer {
             OpenApiMappingEntity openApiMappingEntityReversed = new OpenApiMappingEntity( target, source);
             this.openApiMappingRepository.save(openApiMappingEntity);
             this.openApiMappingRepository.save(openApiMappingEntityReversed);
+            graph.addEdge(i, r);
           }
         }
       }
@@ -109,5 +118,9 @@ public class NetworkInitializer {
 
   public void setC(int c) {
     this.c = c;
+  }
+
+  public Graph getGraph() {
+    return graph;
   }
 }

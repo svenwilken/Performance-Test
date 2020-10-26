@@ -3,15 +3,19 @@ package ui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import network.Graph;
 import network.NetworkInitializer;
+
 
 public class TestUIPanel extends JPanel {
 
@@ -19,9 +23,15 @@ public class TestUIPanel extends JPanel {
 
     private NetworkInitializer initializer;
 
+    private TextFileChooser textFileChooser;
+    private JButton printMatrix = new JButton("Print Matrix");
+
+
+
 
     public TestUIPanel(NetworkInitializer initializer) {
       this.initializer=initializer;
+      this.textFileChooser=new TextFileChooser();
       setBorder(new EmptyBorder(10, 10, 10, 10));
       setLayout(new GridBagLayout());
 
@@ -61,7 +71,34 @@ public class TestUIPanel extends JPanel {
       JPanel panel2 = panelForCleanup(initializer, gbc);
       add(panel2, gbc);
 
+      JPanel panel3 = getPanelForMatrixCreation(gbc);
+      add(panel3, gbc);
     }
+
+  private JPanel getPanelForMatrixCreation(GridBagConstraints gbc) {
+    JPanel panel3 = new JPanel(new GridBagLayout());
+    this.printMatrix.setEnabled(false);
+    panel3.add(this.printMatrix, gbc);
+    this.printMatrix.addActionListener(e -> {
+          startupFileChooser();
+      try {
+        initializer.getGraph().writeMatrixToFile();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }; }
+    );
+    return panel3;
+  }
+
+  public void startupFileChooser() {
+
+    if (this.textFileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+      Graph.setFilePath(this.textFileChooser.getSelectedFile().getAbsolutePath()+".txt");
+    } else {
+      Graph.setFilePath(System.getProperty("user.dir")+System.getProperty("file.separator")+"matrix.txt");
+    }
+  }
+
 
   private JComboBox getjComboBox(NetworkInitializer initializer) {
     JComboBox jComboBox = new JComboBox(new Boolean[]{false, true});
@@ -120,6 +157,8 @@ public class TestUIPanel extends JPanel {
     startStopButton.addActionListener(e -> {
       try {
        initializer.createNetwork();
+       this.printMatrix.setEnabled(true);
+
       } catch (Exception ex) {
        ex.printStackTrace();
       }

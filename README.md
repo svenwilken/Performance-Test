@@ -14,7 +14,14 @@ The Project is developed to set up an performance Test on the https://integratei
 
 ## How to initialize the Test
 1. Start the UI.
-2. Type in the number of entities N, generated for the test. 
+2. Modify test settings.  
+    2.1 Type in the number of entities N, generated for the test.
+    
+    2.2 Type in complexity c of test network.
+    * If C = 0, then the Network will only have one dimension and there will be only one path from Node 1 to Node N
+    * If C = i, then every Node will have i additional edge(s) to (an)other randomly assigned node(s)
+    
+    2.3 Define if loops in test networks are allowed.
 3. Create test setup by clicking "Create Test".
 
 ## How to execute the Test
