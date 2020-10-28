@@ -13,12 +13,15 @@ public class Graph {
   private static String filePath;
   private int numOfNodes;
   private boolean[][] isSetMatrix;
+  private int calcTime;
 
   public Graph(int numOfNodes) {
 
     this.numOfNodes = numOfNodes;
 
     isSetMatrix = new boolean[numOfNodes][numOfNodes];
+
+    this.calcTime =0;
   }
 
   public static void setFilePath(String absolutePath) {
@@ -48,6 +51,9 @@ public class Graph {
     File file = new File(filePath);
     FileWriter fileWriter = new FileWriter(file);
     PrintWriter printWriter = new PrintWriter(fileWriter);
+    if(this.calcTime!=0) {
+      printWriter.println("Calc Time was: "+this.calcTime);
+    }
     for (int i = 0; i < numOfNodes; i++) {
       for (int j = 0; j < numOfNodes; j++) {
         // We only want to print the values of those positions that have been marked as set
@@ -63,4 +69,7 @@ public class Graph {
     java.awt.Desktop.getDesktop().edit(file);
   }
 
+  public void setCalcTime(int calcTime) {
+    this.calcTime = calcTime;
+  }
 }

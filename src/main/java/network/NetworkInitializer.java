@@ -152,4 +152,8 @@ public class NetworkInitializer {
   public Graph getGraph() {
     return graph;
   }
+
+  public void setCalcTime(int value) {
+    graph.setCalcTime(value);
+  }
 }
