@@ -50,8 +50,10 @@ public class TestUIPanel extends JPanel {
       JComboBox jComboBox = getjComboBox(initializer);
       JSpinner spinner = getjSpinnerForN(initializer, gbc);
       JSpinner spinner2 = getjSpinnerForC(initializer, gbc, jComboBox);
+      JSpinner spinner2_2 = getjSpinnerForC_lowerBound(initializer, gbc, jComboBox);
       JLabel label = new JLabel("Number of test entities:");
-      JLabel label2 = new JLabel("Network complexity:");
+      JLabel label2 = new JLabel("Network complexity C:");
+      JLabel label2_2 = new JLabel("Lower bound of C:");
       JLabel label3 = new JLabel("Loops in network allowed:");
 
       JPanel jPanel = new JPanel();
@@ -60,10 +62,11 @@ public class TestUIPanel extends JPanel {
       jPanel.add(spinner);
       jPanel.add(label2);
       jPanel.add(spinner2);
+      jPanel.add(label2_2);
+      jPanel.add(spinner2_2);
       jPanel.add(label3);
       jPanel.add(jComboBox);
       add(jPanel, gbc);
-//      add(spinner, gbc);
 
       JPanel panel = panelForTestInitialisation(initializer, gbc);
       add(panel, gbc);
@@ -74,6 +77,18 @@ public class TestUIPanel extends JPanel {
       JPanel panel3 = getPanelForMatrixCreation(gbc);
       add(panel3, gbc);
     }
+
+  private JSpinner getjSpinnerForC_lowerBound(NetworkInitializer initializer, GridBagConstraints gbc, JComboBox jComboBox) {
+    SpinnerModel model = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+    initializer.setC_lowerBound(0);
+    JSpinner spinner = new JSpinner(model);
+    spinner.addChangeListener(e -> {
+      initializer.setC((int)spinner.getValue());
+      System.out.println("C_lowerBound set to:"+(int)spinner.getValue());
+    });
+    gbc.weighty = 1;
+    return spinner;
+  }
 
   private JPanel getPanelForMatrixCreation(GridBagConstraints gbc) {
     JPanel panel3 = new JPanel(new GridBagLayout());

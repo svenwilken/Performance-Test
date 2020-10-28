@@ -8,7 +8,7 @@ import ui.TestUIPanel;
 public class UiStarter {
   public static void main (String args[]){
     UiStarter uiStarter = new UiStarter();
-    NetworkInitializer initializer = new NetworkInitializer(10, 0, false);
+    NetworkInitializer initializer = new NetworkInitializer(10, 0, 0 ,false);
     uiStarter.startupFrame(initializer);
   }
 
@@ -27,7 +27,7 @@ public class UiStarter {
       frame.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-          initializer.deleteTestEntitys();
+          //initializer.deleteTestEntitys();
           e.getWindow().dispose();
         }
       });

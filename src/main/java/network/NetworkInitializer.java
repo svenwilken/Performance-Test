@@ -18,17 +18,26 @@ public class NetworkInitializer {
   /**
    * Represent complexity of the Network.
    * 		If C = 0, then the Network will only have one dimension and there will be only one path from Node 1 to Node N
-   *  	If C = i, then every Node will have i additional edge(s) to (an)other randomly assigned node(s)
+   *  	If C = i, then every Node could have up to i additional edge(s) to (an)other randomly assigned node(s)
    */
   int c;
+  /**
+   * Represent complexity of the Network.
+   * 		If C_lowerBound = C, then every Node will i additional edge(s) to (an)other randomly assigned node(s)
+   *  	If C_lowerBound < C, then every Node will have in a randomly assigned number r of additional edge(s) to (an)other randomly assigned node(s).
+   *          r will be in between C_lowerBound and C.
+   *  	If C_lowerBound > C, this case will be treated as C_lowerBound = C
+   */
+  int c_lowerBound;
   /**
    * a boolean indicating if the Network is allowed to have loops
    */
   boolean loop;
 
-  public NetworkInitializer(int n,int c, boolean loop) {
+  public NetworkInitializer(int n,int c,int c_lowerBound, boolean loop) {
     this.n = n;
     this.c = c;
+    this.c_lowerBound = c_lowerBound;
     this.loop = loop;
     this.openApiMappingRepository = new OpenApiMappingRepository();
     this.openApiRepository = new OpenApiRepository();
@@ -71,7 +80,8 @@ public class NetworkInitializer {
     if(c>0) {
       if (loop) {
         for (int i = 1; i < n; i++) {
-          for (int j = 0; j < c; j++) {
+          int numberOfExtraNodes = getNumberOfExtraNodes();
+          for (int j = 0; j < numberOfExtraNodes; j++) {
             int r = Utils.getRandomNumberInRange(1, n, i);
             source = new OpenApiEntity(i + "");
             target = new OpenApiEntity(r + "");
@@ -84,7 +94,8 @@ public class NetworkInitializer {
         }
       } else {
         for (int i = 1; i < n - 1; i++) {
-          for (int j = 0; j < c; j++) {
+          int numberOfExtraNodes = getNumberOfExtraNodes();
+          for (int j = 0; j < numberOfExtraNodes; j++) {
             int r = Utils.getRandomNumberInRange(i, n, i);
             source = new OpenApiEntity(i + "");
             target = new OpenApiEntity(r + "");
@@ -98,6 +109,16 @@ public class NetworkInitializer {
       }
     }
     System.out.println("Network Created");
+  }
+
+  private int getNumberOfExtraNodes() {
+    int numberOfExtraNodes;
+    if (c_lowerBound < c) {
+      numberOfExtraNodes = Utils.getRandomNumberInRange(c_lowerBound, c);
+    } else {
+      numberOfExtraNodes = c;
+    }
+    return numberOfExtraNodes;
   }
 
   public int getN() {
@@ -118,6 +139,14 @@ public class NetworkInitializer {
 
   public void setC(int c) {
     this.c = c;
+  }
+
+  public int getC_lowerBound() {
+    return c_lowerBound;
+  }
+
+  public void setC_lowerBound(int c_lowerBound) {
+    this.c_lowerBound = c_lowerBound;
   }
 
   public Graph getGraph() {
