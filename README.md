@@ -8,6 +8,10 @@ The Project is developed to set up an performance Test on the https://integratei
 
 # Setup
 
+* Generate a new private key for your firebase DB and save the JSON file.
+    * Help: https://firebase.google.com/docs/firestore/quickstart#java_1
+* Rename file to firebase-admin-file.json.
+* Save file in \PerformanceTest dir.
 * Execute UiStarter class.
 
 # Instructions
@@ -18,8 +22,15 @@ The Project is developed to set up an performance Test on the https://integratei
     2.1 Type in the number of entities N, generated for the test.
     
     2.2 Type in complexity c of test network.
+        
+    2.2.1 Define C
     * If C = 0, then the Network will only have one dimension and there will be only one path from Node 1 to Node N
     * If C = i, then every Node will have i additional edge(s) to (an)other randomly assigned node(s)
+   
+    2.2.1 Define C_lowerBound
+     * If C_lowerBound = C, then every Node will i additional edge(s) to (an)other randomly assigned node(s) 
+     * If C_lowerBound < C, then every Node will have in a randomly assigned number r of additional edge(s) to (an)other randomly assigned node(s). R will be in between C_lowerBound and C.
+     * If C_lowerBound > C, this case will be treated as C_lowerBound = C 
     
     2.3 Define if loops in test networks are allowed.
 3. Create test setup by clicking "Create Test".
