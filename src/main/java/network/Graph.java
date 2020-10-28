@@ -13,13 +13,16 @@ public class Graph {
   private static String filePath;
   private int numOfNodes;
   private boolean[][] isSetMatrix;
+  private NetworkInitializer networkInitializer;
   private int calcTime;
 
-  public Graph(int numOfNodes) {
+  public Graph(int numOfNodes, NetworkInitializer networkInitializer) {
 
     this.numOfNodes = numOfNodes;
 
     isSetMatrix = new boolean[numOfNodes][numOfNodes];
+
+    this.networkInitializer = networkInitializer;
 
     this.calcTime =0;
   }
@@ -51,9 +54,11 @@ public class Graph {
     File file = new File(filePath);
     FileWriter fileWriter = new FileWriter(file);
     PrintWriter printWriter = new PrintWriter(fileWriter);
-    if(this.calcTime!=0) {
-      printWriter.println("Calc Time was: "+this.calcTime);
-    }
+    printWriter.println(this.networkInitializer.getN());
+    printWriter.println(this.networkInitializer.getC());
+    printWriter.println(this.networkInitializer.getC_lowerBound());
+    printWriter.println(this.networkInitializer.isLoop());
+    printWriter.println(this.calcTime);
     for (int i = 0; i < numOfNodes; i++) {
       for (int j = 0; j < numOfNodes; j++) {
         // We only want to print the values of those positions that have been marked as set

@@ -7,6 +7,7 @@ import openApiMappings.OpenApiMappingEntity;
 import openApiMappings.OpenApiMappingRepository;
 
 public class NetworkInitializer {
+
   OpenApiMappingRepository openApiMappingRepository;
   OpenApiRepository openApiRepository;
   Graph graph;
@@ -49,7 +50,7 @@ public class NetworkInitializer {
   }
 
   public void createNetwork() {
-    this.graph = new Graph(n);
+    this.graph = new Graph(n,this);
     System.out.println("Create Nodes and Horizontal Line ");
 
     OpenApiEntity source = new OpenApiEntity("1");
@@ -132,6 +133,9 @@ public class NetworkInitializer {
   public void setLoop(boolean loop) {
     this.loop = loop;
   }
+ public boolean isLoop() {
+    return this.loop;
+  }
 
   public int getC() {
     return this.c;
@@ -156,4 +160,6 @@ public class NetworkInitializer {
   public void setCalcTime(int value) {
     graph.setCalcTime(value);
   }
+
 }
+

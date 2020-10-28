@@ -145,6 +145,7 @@ public class TestUIPanel extends JPanel {
               + initializer.getN()
               + "_C" + initializer.getC()
               + "_LowerBound" + initializer.getC_lowerBound()
+              + "_Loop" + initializer.isLoop()
               + ".txt");
     }
   }
