@@ -1,8 +1,8 @@
-package openApi;
+package openApi.model;
 
 public class OpenApiEntity {
-  String id;
-  String name;
+  public String id;
+  public String name;
 
   public OpenApiEntity(String name) {
     this.name = name;

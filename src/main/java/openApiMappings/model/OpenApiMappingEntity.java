@@ -1,12 +1,13 @@
-package openApiMappings;
+package openApiMappings.model;
 
-import openApi.OpenApiEntity;
+import openApi.model.OpenApiEntity;
 
 public class OpenApiMappingEntity {
 
-  String id;
-  OpenApiEntity source;
-  OpenApiEntity target;
+  public String id;
+  public OpenApiEntity source;
+  public OpenApiEntity target;
+  
   public OpenApiMappingEntity(OpenApiEntity source, OpenApiEntity target) {
     this.source = source;
     this.target = target;
