@@ -22,7 +22,7 @@ public class UiStarter {
    uiStarter.startupFrame(initializer);
   }
 
-  public void test_DB() {
+  public static void test_DB() {
     OpenApiEntity random1 = new OpenApiEntity("Random API1");
     OpenApiEntity random2 = new OpenApiEntity("Random API2");
 
@@ -34,11 +34,11 @@ public class UiStarter {
     apiRepo.deleteAllTestApis();
     mappingRepo.deleteAllTestMappings();
 
-    apiRepo.save(random1);
-    apiRepo.save(random2);
-    mappingRepo.save(mapping1);
-    mappingRepo.printMapping(mapping1.id);
-    mappingRepo.delete(mapping1);
+    // apiRepo.save(random1);
+    // apiRepo.save(random2);
+    // mappingRepo.save(mapping1);
+    // mappingRepo.printMapping(mapping1.id);
+    // mappingRepo.delete(mapping1);
   }
 
 

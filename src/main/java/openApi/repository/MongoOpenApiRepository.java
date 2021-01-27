@@ -3,6 +3,7 @@ package openApi.repository;
 import java.util.ArrayList;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.DeleteResult;
 import static global.Parameters.USER_ID;
 import org.bson.Document;
@@ -11,7 +12,7 @@ import db.mongo.MongoConstants;
 import db.mongo.MongoDbInitializer;
 import openApi.model.OpenApiEntity;
 
-public class MongoOpenApiRepository extends OpenApiRepository{
+public class MongoOpenApiRepository extends OpenApiRepository {
 
     private MongoCollection<Document> apiCollection;
 
@@ -21,7 +22,7 @@ public class MongoOpenApiRepository extends OpenApiRepository{
     }
 
     public OpenApiEntity save(OpenApiEntity apiEntity) {
-        
+
         Document docData = new Document();
         docData.put("createdBy", USER_ID);
         docData.put("name", "Performance Test - " + apiEntity.name);
@@ -32,7 +33,7 @@ public class MongoOpenApiRepository extends OpenApiRepository{
         apiEntity.setId(id);
         docData.put("_id", id);
 
-        this.apiCollection.insertOne(docData);
+        this.apiCollection.replaceOne(new Document("_id", id), docData, new UpdateOptions().upsert(true));
         System.out.println("Save OpenApi: " + apiEntity.getId());
         System.out.println("Update time : " + Utils.getCurrentISOTimeString());
         return apiEntity;
@@ -50,13 +51,13 @@ public class MongoOpenApiRepository extends OpenApiRepository{
         filter.put("_id", regexIdFilter);
         System.out.println(filter.toJson());
         DeleteResult res = this.apiCollection.deleteMany(filter);
-        System.out.println("Deleted "+ res.getDeletedCount() + " Test Apis");
+        System.out.println("Deleted " + res.getDeletedCount() + " Test Apis");
     }
 
     public void printAll() {
         ArrayList<Document> docs = new ArrayList<Document>();
         this.apiCollection.find().into(docs);
-        for(Document d : docs) {
+        for (Document d : docs) {
             System.out.println(d.toString());
         }
     }

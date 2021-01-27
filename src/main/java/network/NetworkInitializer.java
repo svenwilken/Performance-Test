@@ -60,8 +60,8 @@ public class NetworkInitializer {
     for(int i =3; i< this.n + 2; i++) {
       OpenApiMappingEntity openApiMappingEntity = new OpenApiMappingEntity(source, target);
       OpenApiMappingEntity openApiMappingEntityReversed = new OpenApiMappingEntity( target, source);
-      OpenApiEntity savedTarget = this.openApiRepository.save(target);
       OpenApiEntity savedSource = this.openApiRepository.save(source);
+      OpenApiEntity savedTarget = this.openApiRepository.save(target);
       OpenApiMappingEntity savedMapping = this.openApiMappingRepository
           .save(openApiMappingEntity);
     OpenApiMappingEntity savedMapping2 = this.openApiMappingRepository

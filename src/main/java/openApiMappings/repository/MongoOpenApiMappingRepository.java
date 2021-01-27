@@ -3,6 +3,7 @@ package openApiMappings.repository;
 import static global.Parameters.USER_ID;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import global.Utils;
@@ -41,7 +42,7 @@ public class MongoOpenApiMappingRepository extends OpenApiMappingRepository {
     apiMappingEntity.setId(id);
     docData.put("_id", id);
 
-    this.mappingCollection.insertOne(docData);
+    this.mappingCollection.replaceOne(new Document("_id", id), docData, new UpdateOptions().upsert(true));
     System.out.println("Save Mapping: " + apiMappingEntity.id);
     System.out.println("Update time : " + Utils.getCurrentISOTimeString());
     return apiMappingEntity;
