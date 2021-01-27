@@ -49,7 +49,7 @@ public class MongoOpenApiRepository extends OpenApiRepository {
         Document filter = new Document();
         Document regexIdFilter = new Document("$regex", String.format("^%s.*", PERFORMANCE_TEST));
         filter.put("_id", regexIdFilter);
-        System.out.println(filter.toJson());
+
         DeleteResult res = this.apiCollection.deleteMany(filter);
         System.out.println("Deleted " + res.getDeletedCount() + " Test Apis");
     }
