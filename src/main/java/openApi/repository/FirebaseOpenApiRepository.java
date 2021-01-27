@@ -1,15 +1,13 @@
-package openApi.firebase;
+package openApi.repository;
 
 import static global.Parameters.USER_ID;
-
-import openApi.OpenApiRepository;
 import openApi.model.OpenApiEntity;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
-import firebase.FirebaseDbInitializer;
+import db.firebase.FirebaseDbInitializer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -20,7 +18,7 @@ public class FirebaseOpenApiRepository extends OpenApiRepository {
   private static final String OPEN_APIS = "openApis";
   Firestore db;
 
-  public FirebaseOpenApiRepository() {
+  protected FirebaseOpenApiRepository() {
     db = FirebaseDbInitializer.getDb();
   }
 

@@ -1,4 +1,4 @@
-package openApiMappings.firebase;
+package openApiMappings.repository;
 
 import static global.Parameters.USER_ID;
 import com.google.api.core.ApiFuture;
@@ -6,19 +6,18 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
-import firebase.FirebaseDbInitializer;
+import db.firebase.FirebaseDbInitializer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.StreamSupport;
-import openApiMappings.OpenApiMappingRepository;
 import openApiMappings.model.OpenApiMappingEntity;
 
 public class FirebaseOpenApiMappingRepository extends OpenApiMappingRepository {
   private Firestore db;
 
-  public FirebaseOpenApiMappingRepository() {
+  protected FirebaseOpenApiMappingRepository() {
     db = FirebaseDbInitializer.getDb();
   }
 

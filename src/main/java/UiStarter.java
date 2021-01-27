@@ -1,46 +1,44 @@
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-
 import org.bson.Document;
-
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
-import mongo.MongoDbInitializer;
+import db.mongo.MongoDbInitializer;
 import network.NetworkInitializer;
-import openApi.OpenApiRepository;
+import openApi.repository.OpenApiRepository;
 import openApi.model.OpenApiEntity;
-import openApi.mongo.MongoOpenApiRepository;
-import openApiMappings.OpenApiMappingRepository;
+import openApiMappings.repository.OpenApiMappingRepository;
 import openApiMappings.model.OpenApiMappingEntity;
-import openApiMappings.mongo.MongoOpenApiMappingRepository;
 import ui.TestUIPanel;
 
 
 public class UiStarter {
   public static void main (String args[]){
-  //  UiStarter uiStarter = new UiStarter();
-  //  NetworkInitializer initializer = new NetworkInitializer(10, 0, 0 ,false);
-  //  uiStarter.startupFrame(initializer);
+   UiStarter uiStarter = new UiStarter();
+   NetworkInitializer initializer = new NetworkInitializer(10, 0, 0 ,false);
+   uiStarter.startupFrame(initializer);
+  }
 
+  public void test_DB() {
     OpenApiEntity random1 = new OpenApiEntity("Random API1");
     OpenApiEntity random2 = new OpenApiEntity("Random API2");
 
     OpenApiMappingEntity mapping1 = new OpenApiMappingEntity(random1, random2);
 
-    OpenApiRepository apiRepo = new MongoOpenApiRepository();
-    OpenApiMappingRepository mappingRepo = new MongoOpenApiMappingRepository();
+    OpenApiRepository apiRepo = OpenApiRepository.getInstance();
+    OpenApiMappingRepository mappingRepo = OpenApiMappingRepository.getInstance();
+    // delete all old entries
+    apiRepo.deleteAllTestApis();
+    mappingRepo.deleteAllTestMappings();
+
     apiRepo.save(random1);
     apiRepo.save(random2);
-
     mappingRepo.save(mapping1);
-
-    apiRepo.deleteAllTestApis();
-
+    mappingRepo.printMapping(mapping1.id);
+    mappingRepo.delete(mapping1);
   }
 
 

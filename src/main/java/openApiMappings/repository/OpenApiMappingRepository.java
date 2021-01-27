@@ -1,9 +1,27 @@
-package openApiMappings;
+package openApiMappings.repository;
 
+import global.Parameters;
 import openApi.model.OpenApiEntity;
 import openApiMappings.model.OpenApiMappingEntity;
 
 public abstract class OpenApiMappingRepository {
+  private static OpenApiMappingRepository instance;
+
+  public static OpenApiMappingRepository getInstance() {
+    if(OpenApiMappingRepository.instance == null) {
+      switch(Parameters.DATABASE) {
+        case MONGO_DB:
+          OpenApiMappingRepository.instance = new MongoOpenApiMappingRepository();
+          break;
+        case FIREBASE:
+          OpenApiMappingRepository.instance = new FirebaseOpenApiMappingRepository();
+          break;
+        default:
+          System.out.println("No Database defined");
+      }
+    }
+    return OpenApiMappingRepository.instance;
+  }
 
   protected static final String OPEN_API_MAPPING = "openApiMappings";
   protected static final String PERFORMANCE_TEST = "PerformanceTest";
@@ -13,7 +31,6 @@ public abstract class OpenApiMappingRepository {
   public abstract void deleteAllTestMappings();
   public abstract void printAllMappings();
   public abstract void printMapping(String id);
-
   protected static String getResponseMapping(String targetIdMapping, String sourceIdMapping) {
     return "{\n"
         + "  \"" + sourceIdMapping + "\":{\n"
@@ -32,7 +49,6 @@ public abstract class OpenApiMappingRepository {
         + "  }\n"
         + "}".trim();
   }
-
   protected static String getIdMapping(OpenApiEntity source) {
     return source.getId() + "_postLightBulbInfo_200";
   }

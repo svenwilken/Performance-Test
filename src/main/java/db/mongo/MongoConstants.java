@@ -1,4 +1,4 @@
-package mongo;
+package db.mongo;
 
 public class MongoConstants {
 	public static final String MONGO_DB_HOST = "localhost";

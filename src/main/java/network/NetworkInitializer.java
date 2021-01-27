@@ -2,11 +2,9 @@ package network;
 
 import global.Utils;
 import openApi.model.OpenApiEntity;
-import openApi.OpenApiRepository;
-import openApi.firebase.FirebaseOpenApiRepository;
+import openApi.repository.OpenApiRepository;
 import openApiMappings.model.OpenApiMappingEntity;
-import openApiMappings.OpenApiMappingRepository;
-import openApiMappings.firebase.FirebaseOpenApiMappingRepository;
+import openApiMappings.repository.OpenApiMappingRepository;
 
 public class NetworkInitializer {
 
@@ -42,8 +40,8 @@ public class NetworkInitializer {
     this.c = c;
     this.c_lowerBound = c_lowerBound;
     this.loop = loop;
-    this.openApiMappingRepository = new FirebaseOpenApiMappingRepository();
-    this.openApiRepository = new FirebaseOpenApiRepository();
+    this.openApiMappingRepository = OpenApiMappingRepository.getInstance();
+    this.openApiRepository = OpenApiRepository.getInstance();
   }
 
   public void deleteTestEntitys() {

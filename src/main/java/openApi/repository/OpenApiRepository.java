@@ -1,8 +1,29 @@
-package openApi;
+package openApi.repository;
 
+import java.lang.reflect.Parameter;
+import global.Parameters;
 import openApi.model.OpenApiEntity;
 
 public abstract class OpenApiRepository {
+  private static OpenApiRepository instance;
+
+  public static OpenApiRepository getInstance() {
+    if(OpenApiRepository.instance == null) {
+      switch (Parameters.DATABASE) {
+        case MONGO_DB:
+          OpenApiRepository.instance = new MongoOpenApiRepository();
+          break;
+        case FIREBASE:
+          OpenApiRepository.instance = new FirebaseOpenApiRepository();
+          break;
+        default:
+          System.out.println("No Database defined");
+          break;
+      }
+    }
+    return OpenApiRepository.instance;
+  }
+  
   protected static final String PERFORMANCE_TEST = "PerformanceTest";
 
   public abstract OpenApiEntity save(OpenApiEntity apiEntity);

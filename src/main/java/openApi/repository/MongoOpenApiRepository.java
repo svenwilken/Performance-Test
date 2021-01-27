@@ -1,24 +1,21 @@
-package openApi.mongo;
+package openApi.repository;
 
 import java.util.ArrayList;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
-
 import static global.Parameters.USER_ID;
 import org.bson.Document;
-
 import global.Utils;
-import mongo.MongoConstants;
-import mongo.MongoDbInitializer;
-import openApi.OpenApiRepository;
+import db.mongo.MongoConstants;
+import db.mongo.MongoDbInitializer;
 import openApi.model.OpenApiEntity;
 
 public class MongoOpenApiRepository extends OpenApiRepository{
 
     private MongoCollection<Document> apiCollection;
 
-    public MongoOpenApiRepository() {
+    protected MongoOpenApiRepository() {
         MongoDatabase apiDB = MongoDbInitializer.getApiDB();
         this.apiCollection = apiDB.getCollection(MongoConstants.MONGO_DB_API_COLLECTION_NAME);
     }

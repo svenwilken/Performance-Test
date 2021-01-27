@@ -1,4 +1,4 @@
-package mongo;
+package db.mongo;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;

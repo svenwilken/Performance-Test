@@ -1,4 +1,4 @@
-package openApiMappings.mongo;
+package openApiMappings.repository;
 
 import static global.Parameters.USER_ID;
 import com.mongodb.client.MongoCollection;
@@ -6,16 +6,15 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import global.Utils;
-import mongo.MongoConstants;
-import mongo.MongoDbInitializer;
+import db.mongo.MongoConstants;
+import db.mongo.MongoDbInitializer;
 import java.util.ArrayList;
-import openApiMappings.OpenApiMappingRepository;
 import openApiMappings.model.OpenApiMappingEntity;
 
 public class MongoOpenApiMappingRepository extends OpenApiMappingRepository {
   private MongoCollection<Document> mappingCollection;
 
-  public MongoOpenApiMappingRepository() {
+  protected MongoOpenApiMappingRepository() {
     MongoDatabase mappingDb = MongoDbInitializer.getMappingDB();
     this.mappingCollection = mappingDb.getCollection(MongoConstants.MONGO_DB_API_MAPPING_COLLECTION_NAME);
   }
