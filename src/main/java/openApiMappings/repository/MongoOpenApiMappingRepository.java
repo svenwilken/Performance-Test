@@ -28,7 +28,7 @@ public class MongoOpenApiMappingRepository extends OpenApiMappingRepository {
 
     String targetIdMapping = OpenApiMappingRepository.getIdMapping(apiMappingEntity.target);
     String sourceIdMapping = OpenApiMappingRepository.getIdMapping(apiMappingEntity.source);
-    String requestMapping = "{\"" + targetIdMapping + "\":\"" + sourceIdMapping + "\"}";
+    String requestMapping = "{\"" + targetIdMapping + "\":\"$.\\\""+ sourceIdMapping +"\\\"\"}";
     String responseMapping = OpenApiMappingRepository.getResponseMapping(targetIdMapping, sourceIdMapping);
 
     Document docData = new Document();
@@ -45,7 +45,7 @@ public class MongoOpenApiMappingRepository extends OpenApiMappingRepository {
     docData.put("type", 0);
     docData.put("apiType", 0);
     docData.put("checksum", Utils.getRandomHexString(40));
-    // docData.put("performance_test", true);
+    docData.put("performance_test", true);
 
     // Mongoose stuff
     docData.put("createdAt", new BsonDateTime(System.currentTimeMillis()));

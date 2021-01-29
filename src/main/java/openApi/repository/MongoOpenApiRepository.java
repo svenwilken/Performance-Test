@@ -33,7 +33,7 @@ public class MongoOpenApiRepository extends OpenApiRepository {
         docData.put("type", 0);
         docData.put("apiSpec", this.getApiSpec(apiEntity));
         docData.put("metadata", new Document());
-        // docData.put("performance_test", true);
+        docData.put("performance_test", true);
 
         // Mongoose stuff
         docData.put("createdAt", new BsonDateTime(System.currentTimeMillis()));

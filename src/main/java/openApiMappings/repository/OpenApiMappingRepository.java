@@ -8,8 +8,8 @@ public abstract class OpenApiMappingRepository {
   private static OpenApiMappingRepository instance;
 
   public static OpenApiMappingRepository getInstance() {
-    if(OpenApiMappingRepository.instance == null) {
-      switch(Parameters.DATABASE) {
+    if (OpenApiMappingRepository.instance == null) {
+      switch (Parameters.DATABASE) {
         case MONGO_DB:
           OpenApiMappingRepository.instance = new MongoOpenApiMappingRepository();
           break;
@@ -27,28 +27,29 @@ public abstract class OpenApiMappingRepository {
   protected static final String PERFORMANCE_TEST = "PerformanceTest";
 
   public abstract OpenApiMappingEntity save(OpenApiMappingEntity apiMappingEntity);
+
   public abstract void delete(OpenApiMappingEntity mappingEntity);
+
   public abstract void deleteAllTestMappings();
+
   public abstract void printAllMappings();
+
   public abstract void printMapping(String id);
+
   protected static String getResponseMapping(String targetIdMapping, String sourceIdMapping) {
-    return "{\n"
-        + "  \"" + sourceIdMapping + "\":{\n"
-        + "   \"switch_philips\":\"" + targetIdMapping + ".switch_philips\",\n"
-        + "   \"color\":\"" + targetIdMapping + ".color\",\n"
-        + "   \"brightness\":\"" + targetIdMapping + ".brightness\",\n"
-        + "   \"color_temperature\":\"" + targetIdMapping + ".color_temperature\",\n"
-        + "   \"time\":{\n"
-        + "     \"day\":\"" + targetIdMapping + ".time.day\",\n"
-        + "     \"month\":\"" + targetIdMapping + ".time.month\",\n"
-        + "     \"year\":\"" + targetIdMapping + ".time.year\",\n"
-        + "     \"hour\":\"" + targetIdMapping + ".time.hour\",\n"
-        + "     \"minute\":\"" + targetIdMapping + ".time.minute\",\n"
-        + "     \"second\":\"" + targetIdMapping + ".time.second\"\n"
-        + "   }\n"
-        + "  }\n"
-        + "}".trim();
+    return "{\"" + sourceIdMapping + "\":{\"switch_philips\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"switch_philips\\\"\",\"color\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"color\\\"\",\"brightness\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"brightness\\\"\",\"color_temperature\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"color_temperature\\\"\",\"time\":{\"day\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"time\\\".\\\"day\\\"\",\"month\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"time\\\".\\\"month\\\"\",\"year\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"time\\\".\\\"year\\\"\",\"hour\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"time\\\".\\\"hour\\\"\",\"minute\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"time\\\".\\\"minute\\\"\",\"second\":\"$.\\\"" + targetIdMapping
+        + "\\\".\\\"time\\\".\\\"second\\\"\"}}}";
   }
+
   protected static String getIdMapping(OpenApiEntity source) {
     return source.getId() + "_postLightBulbInfo_200";
   }
