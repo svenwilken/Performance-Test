@@ -5,6 +5,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.DeleteResult;
+
+import org.bson.BsonDateTime;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -34,15 +36,21 @@ public class MongoOpenApiMappingRepository extends OpenApiMappingRepository {
     docData.put("requestMapping", requestMapping);
     docData.put("responseMapping", responseMapping);
     docData.put("sourceId", sourceIdMapping);
+    docData.put("__t", "OpenApiMapping");
 
     ArrayList<Object> targetIds = new ArrayList<>();
     targetIds.add(targetIdMapping);
-    
+
     docData.put("targetIds", targetIds);
     docData.put("type", 0);
     docData.put("apiType", 0);
     docData.put("checksum", Utils.getRandomHexString(40));
-    docData.put("performance_test", true);
+    // docData.put("performance_test", true);
+
+    // Mongoose stuff
+    docData.put("createdAt", new BsonDateTime(System.currentTimeMillis()));
+    docData.put("updatedAt", new BsonDateTime(System.currentTimeMillis()));
+    docData.put("__v", 0);
 
     if (apiMappingEntity.id == null) {
       apiMappingEntity.setId(new ObjectId().toHexString());

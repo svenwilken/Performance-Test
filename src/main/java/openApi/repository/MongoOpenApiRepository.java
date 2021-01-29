@@ -5,9 +5,10 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
 
 import static global.Parameters.USER_ID;
+
+import org.bson.BsonDateTime;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -32,13 +33,19 @@ public class MongoOpenApiRepository extends OpenApiRepository {
         docData.put("type", 0);
         docData.put("apiSpec", this.getApiSpec(apiEntity));
         docData.put("metadata", new Document());
-        docData.put("performance_test", true);
+        // docData.put("performance_test", true);
 
-        if(apiEntity.id == null) {
+        // Mongoose stuff
+        docData.put("createdAt", new BsonDateTime(System.currentTimeMillis()));
+        docData.put("updatedAt", new BsonDateTime(System.currentTimeMillis()));
+        docData.put("__v", 0);
+
+        if (apiEntity.id == null) {
             apiEntity.setId(new ObjectId().toHexString());
         }
 
-        this.apiCollection.replaceOne(new Document("_id", new ObjectId(apiEntity.id)), docData, new UpdateOptions().upsert(true));
+        this.apiCollection.replaceOne(new Document("_id", new ObjectId(apiEntity.id)), docData,
+                new UpdateOptions().upsert(true));
         System.out.println("Save OpenApi: " + apiEntity.getId());
         System.out.println("Update time : " + Utils.getCurrentISOTimeString());
         return apiEntity;
