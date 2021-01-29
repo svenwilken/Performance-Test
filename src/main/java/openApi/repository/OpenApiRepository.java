@@ -1,6 +1,4 @@
 package openApi.repository;
-
-import java.lang.reflect.Parameter;
 import global.Parameters;
 import openApi.model.OpenApiEntity;
 

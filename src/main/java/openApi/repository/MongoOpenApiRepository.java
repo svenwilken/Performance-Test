@@ -5,8 +5,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+
 import static global.Parameters.USER_ID;
 import org.bson.Document;
+import org.bson.types.ObjectId;
+
 import global.Utils;
 import db.mongo.MongoConstants;
 import db.mongo.MongoDbInitializer;
@@ -22,35 +26,32 @@ public class MongoOpenApiRepository extends OpenApiRepository {
     }
 
     public OpenApiEntity save(OpenApiEntity apiEntity) {
-
         Document docData = new Document();
         docData.put("createdBy", USER_ID);
         docData.put("name", "Performance Test - " + apiEntity.name);
+        docData.put("type", 0);
         docData.put("apiSpec", this.getApiSpec(apiEntity));
         docData.put("metadata", new Document());
+        docData.put("performance_test", true);
 
-        String id = PERFORMANCE_TEST + apiEntity.name;
-        apiEntity.setId(id);
-        docData.put("_id", id);
+        if(apiEntity.id == null) {
+            apiEntity.setId(new ObjectId().toHexString());
+        }
 
-        this.apiCollection.replaceOne(new Document("_id", id), docData, new UpdateOptions().upsert(true));
+        this.apiCollection.replaceOne(new Document("_id", new ObjectId(apiEntity.id)), docData, new UpdateOptions().upsert(true));
         System.out.println("Save OpenApi: " + apiEntity.getId());
         System.out.println("Update time : " + Utils.getCurrentISOTimeString());
         return apiEntity;
     }
 
     public void delete(OpenApiEntity apiEntity) {
-        this.apiCollection.deleteOne(new Document("_id", apiEntity.id));
+        this.apiCollection.deleteOne(new Document("_id", new ObjectId(apiEntity.id)));
         System.out.println("Delete OpenApi: " + apiEntity.getId());
         System.out.println("Update time : " + Utils.getCurrentISOTimeString());
     }
 
     public void deleteAllTestApis() {
-        Document filter = new Document();
-        Document regexIdFilter = new Document("$regex", String.format("^%s.*", PERFORMANCE_TEST));
-        filter.put("_id", regexIdFilter);
-
-        DeleteResult res = this.apiCollection.deleteMany(filter);
+        DeleteResult res = this.apiCollection.deleteMany(new Document("performance_test", true));
         System.out.println("Deleted " + res.getDeletedCount() + " Test Apis");
     }
 

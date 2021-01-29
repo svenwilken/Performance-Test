@@ -27,7 +27,7 @@ public class FirebaseOpenApiRepository extends OpenApiRepository {
     Map<String, Object> docData = new HashMap<>();
     docData.put("createdBy", USER_ID);
 
-    Map<String, Object> metadata = new HashMap<>();
+    // Map<String, Object> metadata = new HashMap<>();
     docData.put("name", "Performance Test - " + apiEntity.name);
     docData.put("openApiSpec", this.getApiSpec(apiEntity));
     docData.put("metadata", "{}");

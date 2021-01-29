@@ -1,7 +1,7 @@
 package db.mongo;
 
 public class MongoConstants {
-	public static final String MONGO_DB_HOST = "localhost";
+	public static final String MONGO_DB_HOST = "dordrecht.informatik.uni-mannheim.de";
 	public static final int MONGO_DB_PORT = 27017;
 	
 	public static final String MONGO_DB_USER = "admin";
