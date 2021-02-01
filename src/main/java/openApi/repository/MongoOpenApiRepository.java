@@ -1,9 +1,13 @@
 package openApi.repository;
 
 import java.util.ArrayList;
+
+import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.WriteModel;
 import com.mongodb.client.result.DeleteResult;
 
 import static global.Parameters.USER_ID;
@@ -20,10 +24,19 @@ import openApi.model.OpenApiEntity;
 public class MongoOpenApiRepository extends OpenApiRepository {
 
     private MongoCollection<Document> apiCollection;
+    private ArrayList<WriteModel<Document>> bulkWrite;
 
     protected MongoOpenApiRepository() {
         MongoDatabase apiDB = MongoDbInitializer.getApiDB();
         this.apiCollection = apiDB.getCollection(MongoConstants.MONGO_DB_API_COLLECTION_NAME);
+        this.bulkWrite = new ArrayList<WriteModel<Document>>();
+    }
+
+    public void commitBulkOperation() {
+        System.out.println("Commit api bulk update");
+        this.apiCollection.bulkWrite(bulkWrite);
+        System.out.println("Writing apis finished");
+        this.bulkWrite.clear();
     }
 
     public OpenApiEntity save(OpenApiEntity apiEntity) {
@@ -43,11 +56,9 @@ public class MongoOpenApiRepository extends OpenApiRepository {
         if (apiEntity.id == null) {
             apiEntity.setId(new ObjectId().toHexString());
         }
+        this.bulkWrite.add(new ReplaceOneModel<Document>(new Document("_id", new ObjectId(apiEntity.id)), docData,
+                new UpdateOptions().upsert(true)));
 
-        this.apiCollection.replaceOne(new Document("_id", new ObjectId(apiEntity.id)), docData,
-                new UpdateOptions().upsert(true));
-        System.out.println("Save OpenApi: " + apiEntity.getId());
-        System.out.println("Update time : " + Utils.getCurrentISOTimeString());
         return apiEntity;
     }
 

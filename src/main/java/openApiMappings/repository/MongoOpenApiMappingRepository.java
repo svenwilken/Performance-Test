@@ -1,9 +1,13 @@
 package openApiMappings.repository;
 
 import static global.Parameters.USER_ID;
+
+import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.WriteModel;
 import com.mongodb.client.result.DeleteResult;
 
 import org.bson.BsonDateTime;
@@ -18,17 +22,26 @@ import openApiMappings.model.OpenApiMappingEntity;
 
 public class MongoOpenApiMappingRepository extends OpenApiMappingRepository {
   private MongoCollection<Document> mappingCollection;
+  private ArrayList<WriteModel<Document>> bulkWrite;
 
   protected MongoOpenApiMappingRepository() {
     MongoDatabase mappingDb = MongoDbInitializer.getMappingDB();
     this.mappingCollection = mappingDb.getCollection(MongoConstants.MONGO_DB_API_MAPPING_COLLECTION_NAME);
+    this.bulkWrite = new ArrayList<WriteModel<Document>>();
+  }
+
+  public void commitBulkOperation() {
+    System.out.println("Commit mappings bulk operation");
+    this.mappingCollection.bulkWrite(this.bulkWrite);
+    System.out.println("Writing mappings finished");
+    bulkWrite.clear();
   }
 
   public OpenApiMappingEntity save(OpenApiMappingEntity apiMappingEntity) {
 
     String targetIdMapping = OpenApiMappingRepository.getIdMapping(apiMappingEntity.target);
     String sourceIdMapping = OpenApiMappingRepository.getIdMapping(apiMappingEntity.source);
-    String requestMapping = "{\"" + targetIdMapping + "\":\"$.\\\""+ sourceIdMapping +"\\\"\"}";
+    String requestMapping = "{\"" + targetIdMapping + "\":\"$.\\\"" + sourceIdMapping + "\\\"\"}";
     String responseMapping = OpenApiMappingRepository.getResponseMapping(targetIdMapping, sourceIdMapping);
 
     Document docData = new Document();
@@ -55,10 +68,9 @@ public class MongoOpenApiMappingRepository extends OpenApiMappingRepository {
     if (apiMappingEntity.id == null) {
       apiMappingEntity.setId(new ObjectId().toHexString());
     }
-    this.mappingCollection.replaceOne(new Document("_id", new ObjectId(apiMappingEntity.id)), docData,
-        new UpdateOptions().upsert(true));
-    System.out.println("Save Mapping: " + apiMappingEntity.id);
-    System.out.println("Update time : " + Utils.getCurrentISOTimeString());
+    this.bulkWrite.add(new ReplaceOneModel<Document>(new Document("_id", new ObjectId(apiMappingEntity.id)), docData,
+        new UpdateOptions().upsert(true)));
+
     return apiMappingEntity;
   }
 

@@ -36,6 +36,8 @@ public abstract class OpenApiMappingRepository {
 
   public abstract void printMapping(String id);
 
+  public abstract void commitBulkOperation();
+
   protected static String getResponseMapping(String targetIdMapping, String sourceIdMapping) {
     return "{\"" + sourceIdMapping + "\":{\"switch_philips\":\"$.\\\"" + targetIdMapping
         + "\\\".\\\"switch_philips\\\"\",\"color\":\"$.\\\"" + targetIdMapping

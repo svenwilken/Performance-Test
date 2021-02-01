@@ -21,6 +21,10 @@ public class FirebaseOpenApiMappingRepository extends OpenApiMappingRepository {
     db = FirebaseDbInitializer.getDb();
   }
 
+  public void commitBulkOperation(){
+    // not supported
+  }
+
   public OpenApiMappingEntity save(OpenApiMappingEntity apiMappingEntity) {
 
     String targetIdMapping = getIdMapping(apiMappingEntity.target);

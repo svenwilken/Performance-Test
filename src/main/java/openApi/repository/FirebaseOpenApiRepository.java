@@ -22,6 +22,10 @@ public class FirebaseOpenApiRepository extends OpenApiRepository {
     db = FirebaseDbInitializer.getDb();
   }
 
+  public void commitBulkOperation() {
+    // not supported
+  }
+
   public OpenApiEntity save(OpenApiEntity apiEntity) {
 
     Map<String, Object> docData = new HashMap<>();

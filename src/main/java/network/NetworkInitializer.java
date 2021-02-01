@@ -108,6 +108,9 @@ public class NetworkInitializer {
         }
       }
     }
+    this.openApiRepository.commitBulkOperation();
+    this.openApiMappingRepository.commitBulkOperation();
+  
     System.out.println("Network Created");
   }
 

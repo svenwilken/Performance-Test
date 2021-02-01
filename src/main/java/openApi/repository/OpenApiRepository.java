@@ -29,6 +29,8 @@ public abstract class OpenApiRepository {
   public abstract void delete(OpenApiEntity apiEntity);
   public abstract void printAll();
 
+  public abstract void commitBulkOperation();
+
   protected String getApiSpec(OpenApiEntity apiEntity) {
     return "{\n"
         + "  \"openapi\": \"3.0.0\",\n"
