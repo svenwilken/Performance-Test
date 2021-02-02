@@ -2,7 +2,6 @@ package openApiMappings.repository;
 
 import static global.Parameters.USER_ID;
 
-import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOneModel;

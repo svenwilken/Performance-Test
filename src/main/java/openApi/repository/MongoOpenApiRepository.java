@@ -2,7 +2,6 @@ package openApi.repository;
 
 import java.util.ArrayList;
 
-import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOneModel;
